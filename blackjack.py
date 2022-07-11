@@ -9,8 +9,6 @@ class Hand:
         self.ace_reduced = ace_reduced
         self.cards = cards
         
-
-
     
 def draw_card(cards_drawn, num_decks, hand):
     while True:
@@ -21,11 +19,6 @@ def draw_card(cards_drawn, num_decks, hand):
         card = ''
         
         card_id = 100*rank + 10*suit + deck
-        
-        
-        
-        
-        
         
 def main():
     
