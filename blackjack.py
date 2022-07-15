@@ -2,11 +2,12 @@ import random
 
 class Hand:
     
-    def __init__(self, total=0, num_cards=0, has_ace=False, ace_reduced=False, cards=[]):
+    def __init__(self, total=0, num_cards=0, has_ace=False, ace_reduced=False, hide_card=False, cards=[]):
         self.total = total
         self.num_cards = num_cards
         self.has_ace = has_ace
         self.ace_reduced = ace_reduced
+        self.hide_card = hide_card
         self.cards = cards
         
     def set_hand(self, card):
@@ -20,7 +21,9 @@ class Hand:
     def set_num_cards():
         pass
     
-    
+    def set_hide_card(self, status):
+        self.hide_card = status
+        
 def card_reader(card):
     ranks = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
     suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds']
@@ -45,7 +48,7 @@ def draw_card(cards_drawn, num_decks):
         cards_drawn[card] += 1
         invalid_card = False
         
-        print(card_reader(card))
+        #print(card_reader(card))
         return card
 
 print('Welcome to blackjack!')
@@ -65,13 +68,18 @@ game_play = True
 while game_play:
     player_hand = Hand()
     dealer_hand = Hand()
+    dealer_hand.set_hide_card(False)
     cards_drawn = {}
     
     #initial draw
     for turn in range(0, 2):
         player_hand.set_hand(draw_card(cards_drawn, num_decks))
+        print(f"Player card - {card_reader(player_hand.cards[-1])}")
         dealer_hand.set_hand(draw_card(cards_drawn, num_decks))
- 
+        if dealer_hand.hide_card == False:
+            print(f"Dealer card - {card_reader(dealer_hand.cards[-1])}")
+        dealer_hand.set_hide_card(True)
+         
     valid_answer = False
     while not valid_answer:
         answer = input('Would you like to hit? y/n ')
