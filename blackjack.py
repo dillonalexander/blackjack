@@ -32,12 +32,12 @@ def card_reader(card):
 def draw_card(cards_drawn, num_decks):
     invalid_card = True
     while invalid_card:
-        rank = random.choice(range(1,14))
-        suit = random.choice(range(1, 5))
+        rank = random.choice(range(0, 13))
+        suit = random.choice(range(0, 4))
         card = (rank, suit)
         
         if cards_drawn.get(card, 0) > num_decks:
-            continue
+            break
                 
         if card not in cards_drawn:
             cards_drawn[card] = 0
@@ -45,22 +45,21 @@ def draw_card(cards_drawn, num_decks):
         cards_drawn[card] += 1
         invalid_card = False
         
+        print(card_reader(card))
         return card
 
 print('Welcome to blackjack!')
 print('For your deck number, please enter a number between 2 and 8. The value will default to 6 otherwise.')
 
 invalid_input = True
-num_decks = 2
 while invalid_input:
     try:
         num_decks = int(input('How many decks would you like to play with? '))
         if num_decks not in range(2,9):
-            num_decks = 2
-    
-        break        
+            num_decks = 6
     except:
-        print(f"Please enter a valid integer between 2 and 8")
+        num_decks = 6
+    invalid_input = False
     
 game_play = True
 while game_play:
@@ -71,7 +70,6 @@ while game_play:
     #initial draw
     for turn in range(0, 2):
         player_hand.set_hand(draw_card(cards_drawn, num_decks))
-        
         dealer_hand.set_hand(draw_card(cards_drawn, num_decks))
  
     valid_answer = False
