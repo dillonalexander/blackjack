@@ -42,9 +42,6 @@ class Hand:
                 self.total -= 10
         return self.total
                 
-def calculate_hand(hand):
-    pass
-        
 def card_reader(card):
     ranks = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
     suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds']
