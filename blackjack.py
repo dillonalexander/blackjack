@@ -42,7 +42,6 @@ class Hand:
                 self.total -= 10
         return self.total
                 
-        
 def calculate_hand(hand):
     pass
         
@@ -51,7 +50,6 @@ def card_reader(card):
     suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds']
     return f'{ranks[card[0]]} of {suits[card[1]]}'    
     
-
 #method for drawing cards
 def draw_card(cards_drawn, num_decks):
     invalid_card = True
@@ -67,14 +65,10 @@ def draw_card(cards_drawn, num_decks):
         invalid_card = False
         return card
     
-    
-    
 ############################################################################################################################    
     
-
 print('Welcome to blackjack!')
 print('For your deck number, please enter a number between 2 and 8. The value will default to 6 otherwise.')
-
 
 # determinig number of decks
 invalid_input = True
@@ -87,8 +81,6 @@ while invalid_input:
         num_decks = 6
     invalid_input = False
     
-    
-    
 #gameplay
 game_play = True
 while game_play:
@@ -99,10 +91,6 @@ while game_play:
     #initial draw
     for turn in range(0, 2):
         player_hand.set_hand(draw_card(cards_drawn, num_decks))
-#        if turn == 0:
-#            player_hand.set_hand((0,2))
-#        if turn == 1:
-#            player_hand.set_hand((10,2))
         print(f"Player card: {card_reader(player_hand.cards[-1])}")
         
         dealer_hand.set_hand(draw_card(cards_drawn, num_decks))
@@ -129,10 +117,8 @@ while game_play:
     print(f"Player's {player_hand.total_reader()}")
     print(f"Dealer's {dealer_hand.total_reader()}")
     
-    
     print(f"Player's cards are {[card_reader(card) for card in player_hand.cards]}")
     print(f"Dealer's cards are {[card_reader(card) for card in dealer_hand.cards]}")
-    
     
     if player_hand.total > 21:
         print('PLAYER BUSTED')
