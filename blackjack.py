@@ -2,13 +2,14 @@ import random
 
 class Hand:
     
-    def __init__(self, total=0, num_cards=0, has_ace=False, ace_reduced=True, hide_card=False, cards=[]):
+    def __init__(self, total=0, num_cards=0, has_ace=False, ace_reduced=True, hide_card=False, cards=None):
         self.total = total
         self.num_cards = num_cards
         self.has_ace = has_ace
         self.ace_reduced = ace_reduced
         self.hide_card = hide_card
-        self.cards = cards
+        if cards == None:
+            self.cards = []
         
     def set_hand(self, card):
         self.num_cards += 1
@@ -24,30 +25,28 @@ class Hand:
             self.total += big_ace
         else:
             self.total += card_values[card[0]]
-        
-    def set_num_cards():
-        pass
     
     def set_hide_card(self, status):
         self.hide_card = status
         
-    #TODO: Update this
     def total_reader(self):
-        return f"Total is {self.total}"
-#        if self.has_ace == True:
-#            return f'Your total is {player_hand.total} or {int(player_hand.total) + 10}'
-#        else:
-#            return f'Your total is {player_hand.total}'
+        if self.has_ace == True:
+            if self.total < 11:
+                return f'Total is {self.total} or {int(self.total) + 10}'
+        return f'Total is {self.total}'
         
-    def dealer_game(self):
+    def dealer_logic(self):
         while self.total < 17:
             self.set_hand(draw_card(cards_drawn, num_decks))
             if self.total > 21 and self.has_ace == True:
                 self.total -= 10
-        
         return self.total
       
-            
+    def player_logic(self):
+        if self.has_ace == True:
+            if self.total < 11:
+                self.total += 10
+                
         
 def calculate_hand(hand):
     pass
@@ -55,7 +54,6 @@ def calculate_hand(hand):
 def card_reader(card):
     ranks = ['Ace', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King']
     suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds']
-    
     return f'{ranks[card[0]]} of {suits[card[1]]}'    
     
     
@@ -65,16 +63,12 @@ def draw_card(cards_drawn, num_decks):
         rank = random.choice(range(0, 13))
         suit = random.choice(range(0, 4))
         card = (rank, suit)
-        
         if cards_drawn.get(card, 0) > num_decks:
-            break
-                
+            break  
         if card not in cards_drawn:
             cards_drawn[card] = 0
-            
         cards_drawn[card] += 1
         invalid_card = False
-        
         return card
     
     
@@ -112,18 +106,10 @@ while game_play:
         if dealer_hand.hide_card == False:
             print(f"Dealer card: {card_reader(dealer_hand.cards[-1])}")
         dealer_hand.set_hide_card(True)
-        
-    
-    
-    
-         
+          
     #player decisions after initial draw
     standing = False
     while not standing:
-#        if player_hand.has_ace == True:
-#            ace_value = int(input(f'{player_hand.total_reader()}, would you like to treat your ace as a 1 or 11? '))
-#            if ace_value not in [1, 11]:
-#                ace_value = 1  
         answer = input(f"Player's {player_hand.total_reader()}, would you like to hit? y/n ").lower()
         if answer in ['y', 'n']:
             if answer == 'n':
@@ -132,14 +118,49 @@ while game_play:
                 player_hand.set_hand(draw_card(cards_drawn, num_decks))
                 print(card_reader(player_hand.cards[-1]))
             
-    #dealer decisions
-                
-                
-                
-    dealer_hand.dealer_game()
+    #dealer decisions         
+    dealer_hand.dealer_logic()
+    #player logical choice about ace
+    player_hand.player_logic()
+    
     print(f"Player's {player_hand.total_reader()}")
     print(f"Dealer's {dealer_hand.total_reader()}")
+    
+    
+    print(f"Player's cards are {[card_reader(card) for card in player_hand.cards]}")
+    print(f"Dealer's cards are {[card_reader(card) for card in dealer_hand.cards]}")
+    
+    
+    if player_hand.total > 21:
+        print('PLAYER BUSTED')
+    if dealer_hand.total > 21:
+        print('DEALER BUSTED')
+    if player_hand.total == 21:
+        print('PLAYER BLACKJACK')
+    if dealer_hand.total == 21:
+        print('DEALER BLACKJACK')
 
+    if player_hand.total == dealer_hand.total:
+        if player_hand.total > 21:
+            print("BOTH BUSTED INTO A DRAW")
+        elif player_hand.total == 21:
+            print("TWO BLACKJACKS AND IT'S A DRAW!")
+        else:
+            print("It's a draw!")
+    
+    elif player_hand.total > dealer_hand.total and player_hand.total <= 21:
+        if player_hand == 21:
+            print('PLAYER WINS')
+        else:
+            print(f'PLAYER WINS WITH {player_hand.total}')
+            
+    else:
+        if player_hand.total < dealer_hand.total and dealer_hand.total <= 21:
+            if dealer_hand.total == 21:
+                print('DEALER WINS')
+            else:
+                print(f"DEALER WINS WITH {dealer_hand.total}")
+            
     game_play = False
         
      
