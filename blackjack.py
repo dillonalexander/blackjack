@@ -149,7 +149,7 @@ while game_play:
             
     game_play = False
     
-    answer = input('Enter "yes" if you\'d like to play again.')
+    answer = input('Enter "yes" if you\'d like to play again. ')
     if answer == 'yes' or answer == None or answer == '':
         game_play = True
         
