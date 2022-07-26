@@ -150,8 +150,9 @@ while game_play:
     game_play = False
     
     answer = input('Enter "yes" if you\'d like to play again. ')
-    if answer == 'yes' or answer == None or answer == '':
+    if answer.lower() in ['yes', 'y']:
         game_play = True
+  
         
     
     
